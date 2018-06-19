@@ -1,4 +1,4 @@
-version '2'
+version: '2'
 services:
 
     postgres:
@@ -7,9 +7,9 @@ services:
         volumes:
             - ./data:/var/lib/postgresql/data:rw        
         environment:
-            POSTGRES_USER=user
-            POSTGRES_PASSWORD=password
-            POSTGRES_DB=greetings
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=greetings
         ports:
             - "5432:5432"
 
@@ -18,7 +18,7 @@ services:
         container_name: greetings_app
         expose:
             - "5000"
-        enviroment:
+        environment:
             - DB_URL=postgresql://user:password@database:5432/greetings
         volumes:
             - ./greetings_app:/greetings_app
@@ -35,6 +35,6 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - ./greetings_app/conf.d:etc/nginx/conf.d
+            - ./greetings_app/conf.d:/etc/nginx/conf.d
         depends_on:
             - greetings_app
