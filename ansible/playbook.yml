@@ -1,0 +1,50 @@
+---
+- name: plb
+  hosts: local
+  
+  tasks:
+    - include_vars: ansible-vault
+    - docker_service:
+        project_name: bd
+        recreate: always
+        definition:
+            version: '2'
+            services:
+                postgres:
+                    image: postgres
+                    container_name: database
+                    volumes:
+                        - "{{playbook_dir}}/../data:/var/lib/postgresql/data:rw"
+                    environment:
+                        - "POSTGRES_USER={{postgres_user}}"
+                        - "POSTGRES_PASSWORD={{postgres_password}}"
+                        - POSTGRES_DB=greetings
+                    ports:
+                        - "5432:5432"
+
+                greetings_app:
+                    image: python:3.7-rc
+                    container_name: greetings_app
+                    expose:
+                        - "5000"
+                    environment:
+                        - "DB_URL=postgresql://{{postgres_user}}:{{postgres_password}}@database:5432/greetings"
+                    volumes:
+                        - "{{playbook_dir}}/../greetings_app:/greetings_app"
+                    entrypoint:
+                        - /bin/bash
+                        - -c
+                        - "pip install -r greetings_app/requirements.txt && python3 greetings_app/app.py"
+                    depends_on:
+                        - postgres
+
+                nginx_proxy:
+                    image: nginx
+                    container_name: nginx_proxy
+                    ports:
+                        - "8080:80"
+                    volumes:
+                        - "{{playbook_dir}}/../greetings_app/conf.d:/etc/nginx/conf.d"
+                    depends_on:
+                        - greetings_app
+...
