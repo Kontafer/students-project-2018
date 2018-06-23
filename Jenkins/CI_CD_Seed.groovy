@@ -27,7 +27,7 @@ pipelineJob("CD_job") {
 	    type('PT_TAG')
 			description('')
 			tagFilter('*')
-			useRepository(gitUrl)
+			useRepository("https://github.com/Kontafer/students-project-2018.git")
 			quickFilterEnabled(false)
 	    }
 	}
