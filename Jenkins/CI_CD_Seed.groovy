@@ -19,7 +19,8 @@ pipelineJob("CD_job") {
 	parameters {
 		gitParameterDefinition {
 			name('IMAGE_TAG')
-			branch('refs/tags')
+			branch('refs/tags/*')
+			branchFilter('.*')
 	    defaultValue('latest')
 	    listSize('0')
 	    selectedValue('DEFAULT')
