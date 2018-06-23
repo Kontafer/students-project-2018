@@ -1,4 +1,7 @@
-pipelineJob("CI-Job") {
+pipelineJob("CI_Job") {
+	triggers {
+		scm('H/5 * * * *')
+	}
 	definition {
 		cpsScm {
 			scm {
