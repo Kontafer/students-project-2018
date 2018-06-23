@@ -1,6 +1,6 @@
 def CONTAINER_NAME = "cicd"
 def CONTAINER_TAG = ''
-def DOCKER_HUB_USER = "Kontafer"
+def DOCKER_HUB_USER = "kontafer"
 def APP_HTTP_PORT = "5050"
 def IMAGE_NAME = ''
 
@@ -15,9 +15,9 @@ node {
 		checkout scm
 	}
 	
-	stage('BUILD') {
-        CONTAINER_TAG = sh(returnStdout: true, script: "git describe --tags 2>/dev/null").trim()
-        echo "Build tag: $CONTAINER_TAG"
+	stage('Build') {
+        	CONTAINER_TAG = sh(returnStdout: true, script: "git describe --tags 2>/dev/null").trim()
+        	echo "Build tag: $CONTAINER_TAG"
         if (CONTAINER_TAG == '') {
 	        currentBuild.result = 'FAILED'
 			sh "exit 1"
