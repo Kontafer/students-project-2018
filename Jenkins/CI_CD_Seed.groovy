@@ -1,6 +1,6 @@
-pipelineJon("CI-Job") {
+pipelineJob("CI-Job") {
 	definition {
-		spsScm {
+		cpsScm {
 			scm {
 				git {
 					remote {
