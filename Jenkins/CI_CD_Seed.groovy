@@ -7,7 +7,7 @@ pipelineJob("CI-Job") {
 						url("https://github.com/Kontafer/students-project-2018.git")
 						credentials("jenkins-github")
 					}
-					branch("master")
+					branch("refs/tags/*")
 				}
 			}
 			scriptPath("Jenkins/CI_job.groovy")
@@ -19,7 +19,7 @@ pipelineJob("CD_job") {
 	parameters {
 		gitParameterDefinition {
 			name('IMAGE_TAG')
-			branch('master')
+			branch('refs/tags')
 	    defaultValue('latest')
 	    listSize('0')
 	    selectedValue('DEFAULT')
@@ -44,7 +44,7 @@ pipelineJob("CD_job") {
 						url("https://github.com/Kontafer/students-project-2018.git")
 						credentials('jenkins-github')
 					}
-					branch('master')
+					branch('refs/tags/*')
 				}
 			}
 			scriptPath('Jenkins/CD_job.groovy')
