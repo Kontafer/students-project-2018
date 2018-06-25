@@ -27,7 +27,7 @@ pipelineJob("CD_job") {
 	    description('Select tag of image')
 	    type('TAG')
 	    sortMode('DESCENDING_SMART')
-	    defaultValue('latest')
+	    defaultValue('')
         }
     }
     definition {
