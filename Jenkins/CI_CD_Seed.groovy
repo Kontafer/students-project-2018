@@ -7,7 +7,7 @@ pipelineJob("CI_Job") {
 			scm {
 				git {
 					remote {
-						url("https://github.com/Kontafer/students-project-2018.git")
+						url("https://github.com/Kontafer/students-project-2018")
 						credentials("jenkins-github")
 					}
 					branch("refs/tags/*")
@@ -19,39 +19,29 @@ pipelineJob("CI_Job") {
 }
 
 pipelineJob("CD_job") {
-	parameters {
-		gitParameterDefinition {
-			name('IMAGE_TAG')
-			branch('refs/tags/*')
-			branchFilter('.*')
-	    defaultValue('latest')
-	    listSize('0')
-	    selectedValue('DEFAULT')
+    triggers {
+	upstream('CI_job')
+    }
+    parameters {
+	gitParam('CONTAINER_TAG') {
+	    description('Select tag of image')
+	    type('TAG')
 	    sortMode('DESCENDING_SMART')
-	    type('PT_TAG')
-			description('')
-			tagFilter('*')
-			useRepository("https://github.com/Kontafer/students-project-2018.git")
-			quickFilterEnabled(false)
-	    }
-	}
-
-	triggers {
-		upstream('CI_job', 'SUCCESS')
-	}
-
-	definition {
-		cpsScm {
-			scm {
-				git {
-					remote {
-						url("https://github.com/Kontafer/students-project-2018.git")
-						credentials('jenkins-github')
-					}
-					branch('refs/tags/*')
-				}
-			}
-			scriptPath('Jenkins/CD_job.groovy')
-		}
-	}
+	    defaultValue('latest')
+        }
+    }
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url("https://github.com/Kontafer/students-project-2018")
+                        credentials("jenkins-github")
+                    }
+                    branch("refs/tags/*")
+                }
+            }
+            scriptPath("Jenkins/CD_job.groovy")
+        }
+    }
 }

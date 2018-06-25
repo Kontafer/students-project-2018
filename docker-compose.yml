@@ -33,7 +33,7 @@ services:
         image: nginx
         container_name: nginx_proxy
         ports:
-            - "8080:80"
+            - "8181:80"
         volumes:
             - ./greetings_app/conf.d:/etc/nginx/conf.d
         depends_on:
